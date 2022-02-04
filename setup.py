@@ -152,17 +152,19 @@ class Config(object):
             return -1, e
 
 def install():
-    print("Install dependency")
-    do(msg="update apt-get",
-        cmd='run_command("sudo apt-get update")')
-    do(msg="install pip",
-        cmd='run_command("sudo apt-get install python3-pip -y")')
-    # do(msg="install git",
-    #     cmd='run_command("sudo apt-get install git-core -y")')
-    do(msg="install sysstat",
-        cmd='run_command("sudo apt-get install sysstat -y")')
-    do(msg="install i2c-tools",
-        cmd='run_command("sudo apt-get install i2c-tools -y")')
+    #Uncomment this to install dependencies
+
+    # print("Install dependency")
+    # do(msg="update apt-get",
+    #     cmd='run_command("sudo apt-get update")')
+    # do(msg="install pip",
+    #     cmd='run_command("sudo apt-get install python3-pip -y")')
+    # # do(msg="install git",
+    # #     cmd='run_command("sudo apt-get install git-core -y")')
+    # do(msg="install sysstat",
+    #     cmd='run_command("sudo apt-get install sysstat -y")')
+    # do(msg="install i2c-tools",
+    #     cmd='run_command("sudo apt-get install i2c-tools -y")')
 
 
     print("Setup interfaces")
@@ -254,14 +256,14 @@ setup(
 
 if len(errors) == 0:
     print("Setup Finished")
-    print('If you want to reboot please press y, if not press n')
-    input_val = readkey()
-    print(input_val)
-    if input_val == 'y':
-        do(msg="System reboot now",
-        cmd='run_command("sudo reboot")')
-    elif input_val == 'n':
-        print("reboot cancel")
+    # print('If you want to reboot please press y, if not press n')
+    # input_val = readkey()
+    # print(input_val)
+    # if input_val == 'y':
+    #     do(msg="System reboot now",
+    #     cmd='run_command("sudo reboot")')
+    # elif input_val == 'n':
+    #     print("reboot cancel")
 else:
     print("\n\nError happened in install process:")
     for error in errors:

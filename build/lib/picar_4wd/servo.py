@@ -45,3 +45,7 @@ class Servo():
             self.pin.pulse_width(value)
 
             angle += delta
+    
+    """Filler function"""
+    def bar(self):
+        print(123)

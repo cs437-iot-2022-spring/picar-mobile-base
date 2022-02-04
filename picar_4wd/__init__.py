@@ -10,9 +10,9 @@ from picar_4wd.speed import Speed
 from picar_4wd.filedb import FileDB  
 from picar_4wd.utils import *
 import time
-
+print("Using our custom code in picar-mobile-base")
 # Config File:
-config = FileDB("~/.picar-4wd-config")
+config = FileDB()
 left_front_reverse = config.get('left_front_reverse', default_value = False)
 right_front_reverse = config.get('right_front_reverse', default_value = False)
 left_rear_reverse = config.get('left_rear_reverse', default_value = False)

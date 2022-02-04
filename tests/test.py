@@ -1,2 +1,1 @@
-from picar_4wd import servo
-servo.bar()
+import picar_4wd

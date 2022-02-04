@@ -37,7 +37,7 @@ class FileDB(object):
 			return eval(value)
 
 		except:
-			# print("error")
+			print("error")
 			return default_value
 	
 	def set(self, name, value):
