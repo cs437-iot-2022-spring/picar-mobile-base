@@ -3,8 +3,8 @@ from picar_4wd import us
 from picar_4wd import servo
 import time
 
-SIZE = (200,400)
-MAX_RANGE = 200 # 200cm
+MAX_RANGE = 200 # r=200cm
+SIZE = (MAX_RANGE,2*MAX_RANGE)
 MIN_ANGLE = -90
 MAX_ANGLE = 90
 
