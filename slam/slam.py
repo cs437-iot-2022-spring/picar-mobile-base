@@ -14,8 +14,8 @@ def cart_from_polar(r, theta):
 
 def record_obstacle(r, theta, arr):
     if (r > MAX_RANGE):
-        # print("Distance exceeded max range")
-        return
+        r = MAX_RANGE
+
     rad = (theta/180.0)*np.pi
     x, y = cart_from_polar((r, rad))
     arr[x + MAX_RANGE, y] = 1
@@ -28,8 +28,9 @@ def sweep(left_to_right=True):
     """
     @param: left_to_right - True or False
     """
-    arr = np.ones(SIZE)
-    step_multiplier = (1-2*left_to_right)
+    arr = np.ones(SIZE) # Initialize map of ones
+    step_multiplier = (1-2*left_to_right) # Returns 1 or -1 depending on rotation
+
     for angle in range(MIN_ANGLE * step_multiplier, MAX_ANGLE * step_multiplier, step_multiplier):
         servo.set_angle(angle)
         dist = us.get_distance()
