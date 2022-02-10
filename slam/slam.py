@@ -12,42 +12,43 @@ def cart_from_polar(r, theta):
     """Make sure theta is in radians"""
     return r * np.cos(theta)
 
-def record_obstacle(r, theta, map):
+def record_obstacle(r, theta, arr):
     if (r > MAX_RANGE):
         # print("Distance exceeded max range")
         return
     rad = (theta/180.0)*np.pi
     x, y = cart_from_polar((r, rad))
-    map[x + MAX_RANGE, y] = 1
+    arr[x + MAX_RANGE, y] = 1
     for d in range(0, int(r)): # vectorize this sometime
         x,y = cart_from_polar((d, rad))
-        map[x + MAX_RANGE, y] = 0
+        arr[x + MAX_RANGE, y] = 0
 
 
-def sweep(left_to_right=1):
+def sweep(left_to_right=True):
     """
-    @param: left_to_right - 1 if true, -1 if false
+    @param: left_to_right - True or False
     """
-    map = np.ones(SIZE)
-    for angle in range(MIN_ANGLE * left_to_right, MAX_ANGLE * left_to_right, left_to_right):
+    arr = np.ones(SIZE)
+    step_multiplier = (1-2*left_to_right)
+    for angle in range(MIN_ANGLE * step_multiplier, MAX_ANGLE * step_multiplier, step_multiplier):
         servo.set_angle(angle)
         dist = us.get_distance()
-        record_obstacle(dist, angle, map)
+        record_obstacle(dist, angle, arr)
         time.sleep(0.01)
     
-    return map
+    return arr
 
-def print_map(map):
+def print_map(arr):
     # print(np.array2string(map))
-    print(map)
+    print(arr)
     
-def map_to_video(map):
+def map_to_video(arr):
     pass
 
 if __name__ == "__main__":
-    map = sweep(left_to_right=1)
+    arr = sweep(left_to_right=1)
     # draw_map(map)
-    print(map)
-    map = sweep(left_to_right=-1)
+    print(arr)
+    arr = sweep(left_to_right=-1)
     # draw_map(map)
-    print(map)
+    print(arr)
