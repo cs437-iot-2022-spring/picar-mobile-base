@@ -1,5 +1,6 @@
 DESCRIPTION.rst
 MANIFEST.in
+README.md
 setup.cfg
 setup.py
 picar_4wd/__init__.py

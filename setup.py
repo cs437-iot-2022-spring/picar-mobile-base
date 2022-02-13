@@ -155,16 +155,16 @@ def install():
     #Uncomment this to install dependencies
 
     # print("Install dependency")
-    # do(msg="update apt-get",
-    #     cmd='run_command("sudo apt-get update")')
-    # do(msg="install pip",
-    #     cmd='run_command("sudo apt-get install python3-pip -y")')
+    do(msg="update apt-get",
+        cmd='run_command("sudo apt-get update")')
+    do(msg="install pip",
+        cmd='run_command("sudo apt-get install python3-pip -y")')
     # # do(msg="install git",
     # #     cmd='run_command("sudo apt-get install git-core -y")')
-    # do(msg="install sysstat",
-    #     cmd='run_command("sudo apt-get install sysstat -y")')
-    # do(msg="install i2c-tools",
-    #     cmd='run_command("sudo apt-get install i2c-tools -y")')
+    do(msg="install sysstat",
+        cmd='run_command("sudo apt-get install sysstat -y")')
+    do(msg="install i2c-tools",
+        cmd='run_command("sudo apt-get install i2c-tools -y")')
 
 
     print("Setup interfaces")
