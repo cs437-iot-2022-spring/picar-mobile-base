@@ -1,7 +1,19 @@
 import socket
+import picar_4wd as fc
+import signal 
 
 HOST = "192.168.10.20" # IP address of your Raspberry PI
 PORT = 65432          # Port to listen on (non-privileged ports are > 1023)
+
+
+def signal_handler(signal, frame):
+    fc.stop()
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
+
+STANDARD_SUFFIX = "\r\n"
+SPEED = 15
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
@@ -9,12 +21,27 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
     try:
         client, clientInfo = s.accept()
-        print("server recv from: ", clientInfo)
         while 1:
             data = client.recv(1024)      # receive 1024 Bytes of message in binary format
             if data != b"":
-                print(data)     
-                client.sendall(data) # Echo back to client
+                print(data)
+                if data == b"87":
+                    # w, up
+                    fc.forward(SPEED)
+                elif data == b"83":
+                    # s, down
+                    fc.backward(SPEED)
+                elif data == b"65":
+                    # a, left
+                    fc.turn_left(SPEED)
+                elif data == b"68":
+                    # d, right
+                    fc.turn_right(SPEED)
+                elif data == b"STOP":
+                    fc.stop()
+                else:
+
+                    client.sendall(data) # Echo back to client
     except: 
         print("Closing socket")
         client.close()
