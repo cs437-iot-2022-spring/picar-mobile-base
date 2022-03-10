@@ -54,7 +54,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 data = ",".join([data, direction])
                 print(data)
                 print(direction)
-                client.sendall(data_b)
+
+                client.sendall(data.encode('ascii'))
 
     except:
         print("Closing socket")
