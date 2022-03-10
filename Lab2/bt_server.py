@@ -9,7 +9,7 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-power_val = 50
+power_val = 10
 
 hostMACAddress = "B8:27:EB:34:24:F0" # The address of Raspberry PI Bluetooth adapter on the server. The server might have multiple Bluetooth adapters.
 port = 0

@@ -5,6 +5,9 @@ import signal
 HOST = "192.168.10.20" # IP address of your Raspberry PI
 PORT = 65432          # Port to listen on (non-privileged ports are > 1023)
 
+from gpiozero import CPUTemperature
+
+
 
 def signal_handler(signal, frame):
     fc.stop()
@@ -21,6 +24,7 @@ ack = ""
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
+    speed = 0
 
     try:
         client, clientInfo = s.accept()
@@ -29,35 +33,42 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             if data_b != b"":
                 data = data_b.decode('utf-8')
+                cpu = CPUTemperature().temperature
+
+
                 if data == "87":
                     # w, up
                     fc.forward(SPEED)
                     direction = "Forward"
+                    speed = SPEED
                 elif data == "83":
                     # s, down
                     fc.backward(SPEED)
                     direction = "Backward"
+                    speed = SPEED
                 elif data == "65":
                     # a, left
                     fc.turn_left(SPEED)
                     direction = "LEFT"
+                    speed = SPEED
                 elif data == "68":
                     # d, right
                     fc.turn_right(SPEED)
                     direction = "Right"
-                elif data == "STATUS"
+                    speed = SPEED
                 elif data == "STOP":
                     fc.stop()
                     direction = "Stopped"
+                    speed = 0
 
-                ack = ""
                 if len(data) > 2 and data[:3] == "ACK":
-                    ack = data[2:]
+                    ack = data[3:]
 
-                data = ",".join([data, ack, direction])
+                data = ",".join([data, ack, direction, str(speed), str(cpu) ])
                 print(data)
                 print(direction)
-                client.sendall(data_b)
+
+                client.sendall(data.encode('ascii'))
 
     except:
         print("Closing socket")
