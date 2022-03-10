@@ -24,35 +24,36 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     try:
         client, clientInfo = s.accept()
         while 1:
-            data = client.recv(1024)      # receive 1024 Bytes of message in binary format
+            data_b = client.recv(1024)      # receive 1024 Bytes of message in binary format
 
-            if data != b"":
-
-                if data == b"87":
+            if data_b != b"":
+                data = data_b.decode('utf-8')
+                if data == "87":
                     # w, up
                     fc.forward(SPEED)
-                    direction = b"Forward"
-                elif data == b"83":
+                    direction = "Forward"
+                elif data == "83":
                     # s, down
                     fc.backward(SPEED)
-                    direction = b"Backward"
-                elif data == b"65":
+                    direction = "Backward"
+                elif data == "65":
                     # a, left
                     fc.turn_left(SPEED)
-                    direction = b"LEFT"
-                elif data == b"68":
+                    direction = "LEFT"
+                elif data == "68":
                     # d, right
                     fc.turn_right(SPEED)
                     direction = "Right"
-                elif data == b"STOP":
+                elif data == "STOP":
                     fc.stop()
-                    direction = b"Stopped"
+                    direction = "Stopped"
 
                 else:
                     client.sendall(data) # Echo back to client
 
-                data_b = b",".join([data, direction])
-                print(data_b)
+                data = ",".join([data, direction])
+                print(data)
+                print(direction)
                 client.sendall(data_b)
 
     except:
