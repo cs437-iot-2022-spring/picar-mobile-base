@@ -14,6 +14,7 @@ const client = net.createConnection({ port: server_port, host: server_addr }, ()
 client.on('data', (data) => {
     document.getElementById("bluetooth").innerHTML = data;
     console.log(data.toString());
+    check_status(data);
     // client.end();
 });
 
@@ -108,14 +109,22 @@ function send_data(data){
   client.write(data);
 }
 
-// update data for every 50ms
+function check_status(data){
+  data_arr = data.split(',');
+
+  // Always send status in order BLUETOOTH, DIRECTION, SPEED, DISTANCE, TEMPERATURE
+  document.getElementById("bluetooth").innerHTML = data;
+
+}
+
+// update status data at least every 50ms
+// setInterval(function(){
+//     client.write("STATUS");
+// }, 50);
+//
+
 function update_data(){
 
     var input = document.getElementById("message").value;
     client.write(`${input}\r\n`);
-
-    // setInterval(function(){
-    //     // get image from python server
-    //     check_response();
-    // }, 50);
 }
