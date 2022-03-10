@@ -1,6 +1,6 @@
 import socket
 import picar_4wd as fc
-import signal 
+import signal
 
 HOST = "192.168.10.20" # IP address of your Raspberry PI
 PORT = 65432          # Port to listen on (non-privileged ports are > 1023)
@@ -28,30 +28,34 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             if data != b"":
 
-                print(data)
                 if data == b"87":
                     # w, up
                     fc.forward(SPEED)
-                    direction = "Forward"
+                    direction = b"Forward"
                 elif data == b"83":
                     # s, down
                     fc.backward(SPEED)
-                    direction = "Backward"
+                    direction = b"Backward"
                 elif data == b"65":
                     # a, left
                     fc.turn_left(SPEED)
-                    direction = "LEFT"
+                    direction = b"LEFT"
                 elif data == b"68":
                     # d, right
                     fc.turn_right(SPEED)
                     direction = "Right"
                 elif data == b"STOP":
                     fc.stop()
-                    direction = ""
+                    direction = b"Stopped"
 
                 else:
                     client.sendall(data) # Echo back to client
-    except: 
+
+                data_b = b",".join([data, direction])
+                print(data_b)
+                client.sendall(data_b)
+
+    except:
         print("Closing socket")
         client.close()
-        s.close()    
+        s.close()
