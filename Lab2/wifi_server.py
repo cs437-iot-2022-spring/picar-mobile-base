@@ -15,6 +15,7 @@ signal.signal(signal.SIGINT, signal_handler)
 STANDARD_SUFFIX = "\r\n"
 SPEED = 15
 direction = ""
+ack = ""
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -48,10 +49,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     fc.stop()
                     direction = "Stopped"
 
-                else:
-                    client.sendall(data) # Echo back to client
+                ack = ""
+                if len(data) > 2 and data == "ACK":
+                    ack = data[2:]
 
-                data = ",".join([data, direction])
+                data = ",".join([data, ack, direction])
                 print(data)
                 print(direction)
                 client.sendall(data_b)
