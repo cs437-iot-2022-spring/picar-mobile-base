@@ -45,12 +45,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     # d, right
                     fc.turn_right(SPEED)
                     direction = "Right"
+                elif data == "STATUS"
                 elif data == "STOP":
                     fc.stop()
                     direction = "Stopped"
 
                 ack = ""
-                if len(data) > 2 and data == "ACK":
+                if len(data) > 2 and data[:3] == "ACK":
                     ack = data[2:]
 
                 data = ",".join([data, ack, direction])

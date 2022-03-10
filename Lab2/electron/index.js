@@ -113,22 +113,23 @@ function check_status(data){
   data_arr = data.split(',');
 
 
-  document.getElementById("direction").innerHTML = data_arr[1];
+  // Always send status in order DATA_RECEIVED, ACK MESSAGE BACK, DIRECTION, SPEED, TEMPERATURE
+  document.getElementById("ret_message").innerHTML = data_arr[1];
+  document.getElementById("direction").innerHTML = data_arr[2];
+  document.getElementById("speed").innerHTML = data_arr[3];
+  document.getElementById("temperature").innerHTML = data_arr[4];
 
-
-  // Always send status in order BLUETOOTH, DIRECTION, SPEED, DISTANCE, TEMPERATURE
-  document.getElementById("bluetooth").innerHTML = data;
 
 }
 
 // update status data at least every 50ms
-// setInterval(function(){
-//     client.write("STATUS");
-// }, 50);
-//
+setInterval(function(){
+    client.write("STATUS");
+}, 1000);
+
 
 function update_data(){
-
     var input = document.getElementById("message").value;
-    client.write(`${input}\r\n`);
+
+    client.write("ACK" + `${input}`);
 }
