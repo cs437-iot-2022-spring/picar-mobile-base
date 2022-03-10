@@ -12,7 +12,6 @@ const client = net.createConnection({ port: server_port, host: server_addr }, ()
 });
 
 client.on('data', (data) => {
-    document.getElementById("bluetooth").innerHTML = data;
     console.log(data.toString());
     check_status(data);
     // client.end();
@@ -110,7 +109,12 @@ function send_data(data){
 }
 
 function check_status(data){
+  data = data.toString();
   data_arr = data.split(',');
+
+
+  document.getElementById("direction").innerHTML = data_arr[1];
+
 
   // Always send status in order BLUETOOTH, DIRECTION, SPEED, DISTANCE, TEMPERATURE
   document.getElementById("bluetooth").innerHTML = data;
