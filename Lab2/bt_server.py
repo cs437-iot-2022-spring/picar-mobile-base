@@ -8,6 +8,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
+from gpiozero import CPUTemperature
 
 power_val = 10
 
@@ -34,6 +35,10 @@ try:
                 fc.backward(power_val)
             elif key=='d':
                 fc.turn_right(power_val)
+            elif key=='temp':
+                cpu = CPUTemperature().temperature
+                cpu = str(cpu)
+                client.send(cpu.encode('ascii'))
             else:
                 fc.stop()
             if key=='q':
